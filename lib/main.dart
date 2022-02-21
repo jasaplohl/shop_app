@@ -11,7 +11,9 @@ class App extends StatelessWidget {
   static const appTitle = "Shop";
 
   final ThemeData theme = ThemeData(
-    primarySwatch: Colors.blueGrey
+    primarySwatch: Colors.blueGrey,
+    colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.orange),
+    fontFamily: "Lato"
   );
 
   @override
