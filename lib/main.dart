@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './pages/products_overview_page.dart';
+import './pages/product_details_page.dart';
 
 void main() {
   runApp(App());
@@ -22,6 +23,9 @@ class App extends StatelessWidget {
       title: appTitle,
       theme: theme,
       home: ProductsOverviewPage(),
+      routes: {
+        ProductDetailsPage.routeName: (context) => ProductDetailsPage()
+      },
     );
   }
 
