@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './providers/products_provider.dart';
+import './providers/cart_provider.dart';
 
 import './pages/products_overview_page.dart';
 import './pages/product_details_page.dart';
@@ -22,8 +23,11 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ProductsProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ProductsProvider()),
+        ChangeNotifierProvider(create: (context) => CartProvider()),
+      ],
       child: MaterialApp(
         title: appTitle,
         theme: theme,
@@ -34,5 +38,4 @@ class App extends StatelessWidget {
       ),
     );
   }
-
 }

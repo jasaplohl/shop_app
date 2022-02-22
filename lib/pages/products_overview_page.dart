@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/products_grid.dart';
+import '../widgets/badge.dart';
+
+import '../providers/cart_provider.dart';
 
 enum FilterOptions {
   favourites,
@@ -20,10 +24,19 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
 
   @override
   Widget build(BuildContext context) {
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Products"),
         actions: [
+          Badge(
+            value: cartProvider.getCartItemsNumber.toString(),
+            child: IconButton(
+              icon: const Icon(Icons.shopping_cart), 
+              onPressed: () {}
+            )
+          ),
           PopupMenuButton(
             icon: const Icon(Icons.more_vert),
             onSelected: (FilterOptions option) {

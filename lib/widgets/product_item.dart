@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../pages/product_details_page.dart';
 
 import '../providers/product_provider.dart';
+import '../providers/cart_provider.dart';
 
 class ProductItem extends StatelessWidget {
 
@@ -23,6 +24,7 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     // Listen: false ensures that the widget doesn't rebuild if the item changes.
     final ProductProvider productProvider = Provider.of<ProductProvider>(context, listen: false);
+    final CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -46,7 +48,9 @@ class ProductItem extends StatelessWidget {
           title: Text(productProvider.title, textAlign: TextAlign.center),
           trailing: IconButton(
             icon: const Icon(Icons.shopping_cart), 
-            onPressed: () {},
+            onPressed: () {
+              cartProvider.addItem(productProvider.id, productProvider.price, productProvider.title);
+            },
             color: Theme.of(context).colorScheme.secondary,
           ),
         )
