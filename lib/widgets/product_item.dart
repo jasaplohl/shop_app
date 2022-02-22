@@ -1,39 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../pages/product_details_page.dart';
 
-import '../models/product.dart';
+import '../providers/product_provider.dart';
 
 class ProductItem extends StatelessWidget {
 
-  final Product product;
+  void onProductClick(BuildContext context, id) {
+    Navigator.of(context).pushNamed(ProductDetailsPage.routeName, arguments: id);
+  }
 
-  ProductItem(this.product);
-
-  void onProductClick(BuildContext context) {
-    Navigator.of(context).pushNamed(ProductDetailsPage.routeName, arguments: product.id);
+  Icon getFavouriteIcon(bool isFavourite) {
+    if(isFavourite) {
+      return const Icon(Icons.favorite);
+    } else {
+      return const Icon(Icons.favorite_outline);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final ProductProvider productProvider = Provider.of<ProductProvider>(context);
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
         child: GestureDetector(
-          onTap: () => onProductClick(context),
+          onTap: () => onProductClick(context, productProvider.id),
           child: Image.network(
-            product.imageUrl,
+            productProvider.imageUrl,
             fit: BoxFit.cover,
           )
         ),
         footer: GridTileBar(
           backgroundColor: Colors.black87,
           leading: IconButton(
-            icon: const Icon(Icons.favorite), 
+            icon: getFavouriteIcon(productProvider.isFavourite), 
             color: Theme.of(context).colorScheme.secondary,
-            onPressed: () {}
+            onPressed: productProvider.toggleFavourite
           ),
-          title: Text(product.title, textAlign: TextAlign.center),
+          title: Text(productProvider.title, textAlign: TextAlign.center),
           trailing: IconButton(
             icon: const Icon(Icons.shopping_cart), 
             onPressed: () {},

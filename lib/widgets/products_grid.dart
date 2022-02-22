@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../widgets/product_item.dart';
 
 import '../providers/products_provider.dart';
+import '../providers/product_provider.dart';
 
 class ProductsGrid extends StatelessWidget {
 
@@ -21,7 +22,10 @@ class ProductsGrid extends StatelessWidget {
         mainAxisSpacing: 10
       ), 
       itemBuilder: (context, index) {
-        return ProductItem(products[index]);
+        return ChangeNotifierProvider.value(
+          value: products[index],
+          child: ProductItem(),
+        );
       }
     );
   }
