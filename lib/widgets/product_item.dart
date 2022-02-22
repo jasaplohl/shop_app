@@ -21,7 +21,8 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProductProvider productProvider = Provider.of<ProductProvider>(context);
+    // Listen: false ensures that the widget doesn't rebuild if the item changes.
+    final ProductProvider productProvider = Provider.of<ProductProvider>(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -35,10 +36,12 @@ class ProductItem extends StatelessWidget {
         ),
         footer: GridTileBar(
           backgroundColor: Colors.black87,
-          leading: IconButton(
-            icon: getFavouriteIcon(productProvider.isFavourite), 
-            color: Theme.of(context).colorScheme.secondary,
-            onPressed: productProvider.toggleFavourite
+          leading: Consumer<ProductProvider>( // We use consumer here, so that the entire item doesn't rebuild
+            builder: (ctx, value, child) => IconButton(
+              icon: getFavouriteIcon(productProvider.isFavourite), 
+              color: Theme.of(context).colorScheme.secondary,
+              onPressed: productProvider.toggleFavourite
+            ),
           ),
           title: Text(productProvider.title, textAlign: TextAlign.center),
           trailing: IconButton(
