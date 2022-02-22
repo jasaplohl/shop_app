@@ -6,6 +6,7 @@ import './providers/cart_provider.dart';
 
 import './pages/products_overview_page.dart';
 import './pages/product_details_page.dart';
+import './pages/cart_page.dart';
 
 void main() {
   runApp(App());
@@ -18,7 +19,10 @@ class App extends StatelessWidget {
   final ThemeData theme = ThemeData(
     primarySwatch: Colors.blueGrey,
     colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.orange),
-    fontFamily: "Lato"
+    fontFamily: "Lato",
+    textTheme: const TextTheme(
+      bodyText1: TextStyle(color: Colors.white)
+    )
   );
 
   @override
@@ -33,7 +37,8 @@ class App extends StatelessWidget {
         theme: theme,
         home: ProductsOverviewPage(),
         routes: {
-          ProductDetailsPage.routeName: (context) => ProductDetailsPage()
+          ProductDetailsPage.routeName: (context) => ProductDetailsPage(),
+          CartPage.routeName:(context) => CartPage()
         },
       ),
     );

@@ -6,6 +6,8 @@ import '../widgets/badge.dart';
 
 import '../providers/cart_provider.dart';
 
+import '../pages/cart_page.dart';
+
 enum FilterOptions {
   favourites,
   all
@@ -22,6 +24,10 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
 
   bool _showFavourites = false;
 
+  void onCartButtonClick(BuildContext context) {
+    Navigator.of(context).pushNamed(CartPage.routeName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +43,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
             },
             child: IconButton(
               icon: const Icon(Icons.shopping_cart), 
-              onPressed: () {}
+              onPressed: () => onCartButtonClick(context)
             ),
           ),
           PopupMenuButton(

@@ -1,19 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
-class CartItem {
-  final String id;
-  final String title;
-  final int quantity;
-  final double price;
-
-  CartItem({
-    required this.id,
-    required this.title,
-    required this.quantity,
-    required this.price, 
-  });
-}
+import '../models/cart_item_model.dart';
 
 class CartProvider with ChangeNotifier {
   final Map<String, CartItem> _items = {};
@@ -24,6 +12,14 @@ class CartProvider with ChangeNotifier {
 
   int get getCount {
     return _items.length;
+  }
+
+  double get getTotalPrice {
+    double total = 0;
+    _items.forEach((key, cartItem) {
+      total += cartItem.price * cartItem.quantity;
+    });
+    return total;
   }
 
   void addItem(String productId, double price, String title) {
@@ -48,4 +44,5 @@ class CartProvider with ChangeNotifier {
     }
     notifyListeners();
   }
+
 }
