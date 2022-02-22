@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/cart_item.dart';
+
 import '../providers/cart_provider.dart';
 
 class CartPage extends StatelessWidget {
@@ -19,6 +21,7 @@ class CartPage extends StatelessWidget {
           children: [
             Card(
               elevation: 5,
+              margin: const EdgeInsets.only(bottom: 10),
               child: Padding(
                 padding: const EdgeInsets.all(5),
                 child: Row(
@@ -35,6 +38,14 @@ class CartPage extends StatelessWidget {
                     )
                   ]
                 ),
+              )
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: cartProvider.getCount,
+                itemBuilder: (context, index) {
+                  return CartListItem(cartProvider.getItems.values.toList()[index]);
+                },
               )
             )
           ],
