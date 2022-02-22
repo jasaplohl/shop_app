@@ -44,7 +44,10 @@ class CartPage extends StatelessWidget {
               child: ListView.builder(
                 itemCount: cartProvider.getCount,
                 itemBuilder: (context, index) {
-                  return CartListItem(cartProvider.getItems.values.toList()[index]);
+                  return CartListItem(
+                    cartProvider.getItems.keys.toList()[index],
+                    cartProvider.getItems.values.toList()[index]
+                  );
                 },
               )
             )
