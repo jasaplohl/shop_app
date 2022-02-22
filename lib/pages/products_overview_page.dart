@@ -24,18 +24,21 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
 
   @override
   Widget build(BuildContext context) {
-    CartProvider cartProvider = Provider.of<CartProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Products"),
         actions: [
-          Badge(
-            value: cartProvider.getCartItemsNumber.toString(),
+          Consumer<CartProvider>(
+            builder: (_, cartProvider, child) {
+              return Badge(
+                value: cartProvider.getCount.toString(),
+                child: child!
+              );
+            },
             child: IconButton(
               icon: const Icon(Icons.shopping_cart), 
               onPressed: () {}
-            )
+            ),
           ),
           PopupMenuButton(
             icon: const Icon(Icons.more_vert),

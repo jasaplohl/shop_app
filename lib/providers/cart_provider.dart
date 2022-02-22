@@ -22,7 +22,7 @@ class CartProvider with ChangeNotifier {
     return {..._items};
   }
 
-  int get getCartItemsNumber {
+  int get getCount {
     return _items.length;
   }
 
@@ -46,5 +46,6 @@ class CartProvider with ChangeNotifier {
       );
       _items.putIfAbsent(productId, () => cartItem);
     }
+    notifyListeners();
   }
 }
