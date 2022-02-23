@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 import 'product_provider.dart';
 
@@ -58,7 +59,15 @@ class ProductsProvider with ChangeNotifier {
   }
 
   void addProduct(ProductProvider product) {
-    _products.add(product);
+    final ProductProvider newProduct = ProductProvider(
+      id: const Uuid().v4(),
+      title: product.title,
+      description: product.description,
+      price: product.price,
+      imageUrl: product.imageUrl
+    );
+    
+    _products.add(newProduct);
     notifyListeners();
   }
 

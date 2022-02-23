@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../providers/product_provider.dart';
+import '../providers/products_provider.dart';
 
 class EditProductPage extends StatefulWidget {
 
@@ -54,14 +56,12 @@ class _EditProductPageState extends State<EditProductPage> {
     }
   }
 
-  void _saveForm() {
+  void _saveForm(BuildContext context) {
     final bool isValid = _form.currentState!.validate();
     if(isValid) {
       _form.currentState!.save();
-      print(_editedProduct.title);
-      print(_editedProduct.description);
-      print(_editedProduct.price);
-      print(_editedProduct.imageUrl);
+      Provider.of<ProductsProvider>(context, listen: false).addProduct(_editedProduct);
+      Navigator.of(context).pop();
     }
   }
 
@@ -72,7 +72,7 @@ class _EditProductPageState extends State<EditProductPage> {
         title: const Text("Edit product"),
         actions: [
           IconButton(
-            onPressed: _saveForm, 
+            onPressed: () => _saveForm(context), 
             icon: const Icon(Icons.save))
         ],
       ),
@@ -179,7 +179,7 @@ class _EditProductPageState extends State<EditProductPage> {
                         setState((){});
                       },
                       onFieldSubmitted: (_) {
-                        _saveForm();
+                        _saveForm(context);
                       },
                       onSaved: (value) {
                         _editedProduct = ProductProvider(
