@@ -12,6 +12,35 @@ class CartListItem extends StatelessWidget {
 
   const CartListItem(this.productId, this.cartItem);
 
+  Future<bool> confirmDismiss(DismissDirection direction, BuildContext context) async {
+    bool remove = false;
+    await showDialog(
+      context: context, 
+      builder: (ctx) {
+        return AlertDialog(
+          title: const Text("Delete from the cart."),
+          content: const Text("Are you sure you want to remove the product from the cart?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: const Text("No")
+            ),
+            TextButton(
+              onPressed: (){
+                remove = true;
+                Navigator.of(ctx).pop();
+              }, 
+              child: const Text("Yes")
+            )
+          ],
+        );
+      }
+    );
+    return remove;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dismissible(
@@ -23,6 +52,7 @@ class CartListItem extends StatelessWidget {
         padding: const EdgeInsets.all(10),
       ),
       direction: DismissDirection.endToStart,
+      confirmDismiss: (direction) => confirmDismiss(direction, context),
       onDismissed: (direction) {
         Provider.of<CartProvider>(context, listen: false).removeItem(productId);
       },
