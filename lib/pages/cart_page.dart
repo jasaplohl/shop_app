@@ -4,14 +4,24 @@ import 'package:provider/provider.dart';
 import '../widgets/cart_item.dart';
 
 import '../providers/cart_provider.dart';
+import '../providers/orders_provider.dart';
 
 class CartPage extends StatelessWidget {
 
   static const routeName = "/cart";
 
+  void placeOrder(CartProvider cartProvider, OrdersProvider ordersProvider) {
+    ordersProvider.addOrder(
+      cartProvider.getItems.values.toList(), 
+      cartProvider.getTotalPrice
+    );
+    cartProvider.clearCart();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final CartProvider cartProvider = Provider.of(context);
+    final CartProvider cartProvider = Provider.of<CartProvider>(context);
+    final OrdersProvider ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(title: const Text("Cart")),
@@ -49,6 +59,16 @@ class CartPage extends StatelessWidget {
                     cartProvider.getItems.values.toList()[index]
                   );
                 },
+              )
+            ),
+            TextButton(
+              onPressed: (cartProvider.getCount > 0) ? 
+                (() => placeOrder(cartProvider, ordersProvider)) : null, 
+              child: const Text(
+                "Place Order",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold
+                ),
               )
             )
           ],
