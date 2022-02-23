@@ -9,7 +9,7 @@ class OrderListItem extends StatefulWidget {
 
   final OrderItem order;
 
-  OrderListItem(this.order);
+  const OrderListItem(this.order);
 
   @override
   _OrderListItemState createState() => _OrderListItemState();

@@ -25,6 +25,14 @@ class _EditProductPageState extends State<EditProductPage> {
     imageUrl: ""
   );
 
+  bool _didInit = false;
+
+  var _initValues = {
+    'title': '',
+    'description': '',
+    'price': ''
+  };
+
   final FocusNode _priceFocusNode = FocusNode();
   final FocusNode _imageUrlFocusNode = FocusNode();
   final TextEditingController _imageUrlController = TextEditingController();
@@ -34,6 +42,26 @@ class _EditProductPageState extends State<EditProductPage> {
     _imageUrlFocusNode.addListener(_updateImagePreview);
 
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if(!_didInit) {
+      final productProvider = ModalRoute.of(context)?.settings.arguments;
+      
+      if(productProvider != null) {
+        _editedProduct = productProvider as ProductProvider;
+        _initValues = {
+          'title': _editedProduct.title,
+          'description': _editedProduct.description,
+          'price': _editedProduct.price.toString()
+        };
+        _imageUrlController.text = _editedProduct.imageUrl;
+      }
+      _didInit = true;
+    }
+    
+    super.didChangeDependencies();
   }
 
   @override
@@ -60,7 +88,13 @@ class _EditProductPageState extends State<EditProductPage> {
     final bool isValid = _form.currentState!.validate();
     if(isValid) {
       _form.currentState!.save();
-      Provider.of<ProductsProvider>(context, listen: false).addProduct(_editedProduct);
+
+      if(_editedProduct.id == null) {
+        Provider.of<ProductsProvider>(context, listen: false).addProduct(_editedProduct);
+      } else {
+        Provider.of<ProductsProvider>(context, listen: false).updateProduct(_editedProduct);
+      }
+
       Navigator.of(context).pop();
     }
   }
@@ -83,6 +117,7 @@ class _EditProductPageState extends State<EditProductPage> {
           child: ListView(
             children: [
               TextFormField(
+                initialValue: _initValues["title"],
                 autofocus: true,
                 decoration: const InputDecoration(labelText: "Title"),
                 textInputAction: TextInputAction.next, // Bottom right button on the keyboard -> next input field
@@ -91,11 +126,12 @@ class _EditProductPageState extends State<EditProductPage> {
                 },
                 onSaved: (value) {
                   _editedProduct = ProductProvider(
-                    id: null,
+                    id: _editedProduct.id,
                     title: value!,
                     description: _editedProduct.description,
                     price: _editedProduct.price,
                     imageUrl: _editedProduct.imageUrl,
+                    isFavourite: _editedProduct.isFavourite
                   );
                 },
                 validator: (value) {
@@ -107,17 +143,19 @@ class _EditProductPageState extends State<EditProductPage> {
                 }
               ),
               TextFormField(
+                initialValue: _initValues["price"],
                 decoration: const InputDecoration(labelText: "Price"),
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
                 focusNode: _priceFocusNode,
                 onSaved: (value) {
                   _editedProduct = ProductProvider(
-                    id: null,
+                    id: _editedProduct.id,
                     title: _editedProduct.title,
                     description: _editedProduct.description,
                     price: double.parse(value!),
                     imageUrl: _editedProduct.imageUrl,
+                    isFavourite: _editedProduct.isFavourite
                   );
                 },
                 validator: (value) {
@@ -130,16 +168,18 @@ class _EditProductPageState extends State<EditProductPage> {
                 }
               ),
               TextFormField(
+                initialValue: _initValues["description"],
                 decoration: const InputDecoration(labelText: "Description"),
                 maxLines: 3,
                 keyboardType: TextInputType.multiline,
                 onSaved: (value) {
                   _editedProduct = ProductProvider(
-                    id: null,
+                    id: _editedProduct.id,
                     title: _editedProduct.title,
                     description: value!,
                     price: _editedProduct.price,
                     imageUrl: _editedProduct.imageUrl,
+                    isFavourite: _editedProduct.isFavourite
                   );
                 },
                 validator: (value) {
@@ -183,11 +223,12 @@ class _EditProductPageState extends State<EditProductPage> {
                       },
                       onSaved: (value) {
                         _editedProduct = ProductProvider(
-                          id: null,
+                          id: _editedProduct.id,
                           title: _editedProduct.title,
                           description: _editedProduct.description,
                           price: _editedProduct.price,
                           imageUrl: value!,
+                          isFavourite: _editedProduct.isFavourite
                         );
                       },
                       validator: (value) {

@@ -8,7 +8,7 @@ class UserProductItem extends StatelessWidget {
 
   final ProductProvider productProvider;
 
-  UserProductItem(this.productProvider);
+  const UserProductItem(this.productProvider);
 
   @override
   Widget build(BuildContext context) {
