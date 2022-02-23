@@ -26,7 +26,7 @@ class ProductItem extends StatelessWidget {
       duration: const Duration(seconds: 5),
       action: SnackBarAction(
         label: "Undo", 
-        onPressed: () => cartProvider.removeItemInstance(productProvider.id)
+        onPressed: () => cartProvider.removeItemInstance(productProvider.id!)
       )
     );
   }
@@ -60,7 +60,7 @@ class ProductItem extends StatelessWidget {
           trailing: IconButton(
             icon: const Icon(Icons.shopping_cart), 
             onPressed: () {
-              cartProvider.addItem(productProvider.id, productProvider.price, productProvider.title);
+              cartProvider.addItem(productProvider.id!, productProvider.price, productProvider.title);
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(buildSnackbar(cartProvider, productProvider));
             },
