@@ -2,12 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/order_item.dart';
-import '../models/cart_item_model.dart';
+import '../models/cart_item.dart';
 
 class OrdersProvider with ChangeNotifier {
   final List<OrderItem> _orders = [];
 
-  List<OrderItem> get orders {
+  List<OrderItem> get getOrders {
     return [..._orders];
   }
 
