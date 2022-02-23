@@ -39,6 +39,10 @@ class ProductsProvider with ChangeNotifier {
     )
   ];
 
+  int get getProductCount {
+    return _products.length;
+  }
+
   // We do not return the actual _products property
   // because we do not want it to be changed elsewhere.
   List<ProductProvider> get getProducts {
