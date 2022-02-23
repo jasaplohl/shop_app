@@ -38,7 +38,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
           Consumer<CartProvider>(
             builder: (_, cartProvider, child) {
               return Badge(
-                value: cartProvider.getCount.toString(),
+                value: cartProvider.getInstanceCount.toString(),
                 child: child!
               );
             },

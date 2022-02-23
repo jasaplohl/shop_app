@@ -20,6 +20,17 @@ class ProductItem extends StatelessWidget {
     }
   }
 
+  SnackBar buildSnackbar(CartProvider cartProvider, ProductProvider productProvider) {
+    return SnackBar(
+      content: const Text("Product has been added to cart"),
+      duration: const Duration(seconds: 5),
+      action: SnackBarAction(
+        label: "Undo", 
+        onPressed: () => cartProvider.removeItemInstance(productProvider.id)
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Listen: false ensures that the widget doesn't rebuild if the item changes.
@@ -50,6 +61,8 @@ class ProductItem extends StatelessWidget {
             icon: const Icon(Icons.shopping_cart), 
             onPressed: () {
               cartProvider.addItem(productProvider.id, productProvider.price, productProvider.title);
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(buildSnackbar(cartProvider, productProvider));
             },
             color: Theme.of(context).colorScheme.secondary,
           ),

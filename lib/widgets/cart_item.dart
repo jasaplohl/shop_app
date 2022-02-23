@@ -36,12 +36,12 @@ class CartListItem extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(3),
                 child: FittedBox(
-                  child: Text("\$${cartItem.price}")
+                  child: Text("\$${cartItem.price.toStringAsFixed(2)}")
                 ),
               )
             ),
             title: Text(cartItem.title),
-            subtitle: Text("Total: ${cartItem.quantity * cartItem.price}"),
+            subtitle: Text("Total: ${(cartItem.quantity * cartItem.price).toStringAsFixed(2)}"),
             trailing: Text("${cartItem.quantity} x")
           ),
         ),
